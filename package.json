@@ -1,0 +1,23 @@
+{
+  "name": "Whatsapp-UI",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@nuxtjs/style-resources": "^1.0.0",
+    "core-js": "^3.6.5",
+    "fibers": "^5.0.0",
+    "gsap": "^3.5.1",
+    "node-sass": "^4.14.0",
+    "nuxt": "^2.14.6",
+    "sass": "^1.29.0",
+    "sass-loader": "^10.1.0",
+    "vue-click-outside": "^1.1.0"
+  },
+  "devDependencies": {}
+}
