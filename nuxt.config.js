@@ -20,6 +20,7 @@ export default {
   css: [
     "~/assets/css/normalize.css",
     "~/assets/css/transitions.css",
+    "~/assets/css/index.scss",
   ],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)

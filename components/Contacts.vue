@@ -8,7 +8,6 @@
         </transition>
         
         <transition
-        v-on:before-enter="enter"
         v-on:before-leave="beforeLeave"
         >
             <NewChat  v-if="showNewChat" :showNewChat="showNewChat" @close-chat="showNewChat=false" />            
@@ -20,7 +19,7 @@
                 <img src="/portrait.png" alt="">
             </div>
             <div class="contacts__top-control">
-                <div class="contacts__top-control-svg" tabindex="0" title="Status" role="button"><Story /></div>
+                <div class="contacts__top-control-svg notification" tabindex="0" title="Status" role="button"><Story /></div>
                 <div @click="showNewChat=true" class="contacts__top-control-svg" tabindex="0" title="New Chat" role="button"><Message /></div>
                 <div @click="showMenu=true" v-click-outside="hideDropdown" class="contacts__top-control-svg" tabindex="0" title="Menu" role="button">
                     <Menu />
@@ -41,7 +40,7 @@
                 
             </div>
         </div>
-        <CustomInput placeholderText='Search or start new chat' />        
+        <CustomInput refName="contactInput" placeholderText='Search or start new chat' />        
         <div class="contacts__details">
             <template v-for="(contact, index) in 13">
                 <ContactCard :contact="contact" :key="index"/>                
@@ -134,6 +133,7 @@ export default {
                 transition: background-color .3s;
                 svg{
                     fill: $svg-fill;
+                    display: block;
                 }
                 &:focus{
                     outline: none;
@@ -141,34 +141,19 @@ export default {
                 }
             }
             &-svg{
-                position: relative;
-                .control-options{
-                        transform-origin: right top;
-                    padding: 9px 0;
-                    background-color: #fff;
-                    border-radius: 3px;
-                    box-shadow: 0 2px 5px 0 rgba(0 ,0, 0, .26),0 2px 10px 0 rgba(0 ,0, 0, .16);
-                    position: absolute;
-                    top: 45px;
-                    right: 0;
-                    z-index: 9;
-
-                    ul{
-                        padding: 0;
-                        margin: 0;
-                        li{
-                            list-style: none;
-                            padding: 13px 58px 13px 24px;
-                            white-space: nowrap;
-                            color: $text-color;
-
-                            &:hover{                                
-                                background-color: #ebebeb;
-                            }
-                        }
-                    }
-                }
-
+                position: relative;  
+                &.notification{
+                    &::after{
+                        content: '';
+                        position: absolute;
+                        border-radius: 50%;
+                        top: 9px;
+                        right: 8.5px;
+                        background-color: $text-teal;
+                        width: 7px;
+                        height: 7px;
+                    }                    
+                }              
             }
         }
     }

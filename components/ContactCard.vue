@@ -1,5 +1,5 @@
 <template>
-    <div class="contact-card">
+    <div @click="updateChatView" class="contact-card">
         <div class="contact-card__img">
             <img :src="contact % 2 > 0 ? `/avatar.jpg` : '/portrait.png'" alt="">
         </div>
@@ -13,7 +13,7 @@
                 </span>
             </div>
             <div class="contact-card__info">
-                <span v-if="!noInfo">Hi how are you</span> 
+                <span class="contact-card__info-msg" v-if="!noInfo">Hi how are you</span> 
                 <div v-if="!noInfo" class="contact-card__actions">
                     <span><Mute /></span>
                     <span class="unread">{{ contact }}</span>
@@ -45,6 +45,11 @@ export default {
     components: {
         MuteIcon,
         ArrowDown
+    },
+    methods: {
+        updateChatView(){
+            this.$store.commit("set_chatView", "chat")
+        }
     }
     
 }
@@ -98,7 +103,7 @@ export default {
         @include flex;
 
         &-name{
-
+            font-size: 17px;
         }
         &-content{
 
@@ -114,6 +119,9 @@ export default {
             height: 20px;
             fill: $svg-fill-light;
             
+        }
+        &-msg{
+            font-size: 14px;
         }
     }
 

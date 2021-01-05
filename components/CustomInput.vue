@@ -4,14 +4,14 @@
         :class="{ focused : inputFocus }"
         @click="inputFocus=true" >
             <div class="contacts__input-box">
-                <div class="search-icon">
+                <div :id="`${refName}-search-icon`" class="search-icon">
                     <SearchIcon />
                 </div>
-                <div @click="backAction" class="arrow-icon">
+                <div :id="`${refName}-arrow-icon`" @click="backAction" class="arrow-icon">
                     <BackIcon />
                 </div>
                 <div v-click-outside="hide" class="input-box">
-                    <input id="chatInput" type="text" v-model="inputText" :placeholder="placeholderText">
+                    <input :ref="refName" class="app-input" id="chatInput" type="text" v-model="inputText" :placeholder="placeholderText">
                     <transition name="fade">
                         <div @click="clearText()" v-if="inputText.length > 0" class="cancel-icon">
                             <CancelIcon />
@@ -35,6 +35,18 @@ export default {
             default() {
                 return 'Enter Info';
             }
+        },
+        refName: {
+            type: String,
+            default() {
+                return '';
+            }
+        },
+        isFocused: {
+            type: Boolean,
+            default() {
+                return false;
+            }
         }
     },
     directives: {
@@ -56,6 +68,11 @@ export default {
         BackIcon,
         CancelIcon,
     },
+    mounted(){
+        if(this.isFocused) {
+            this.clearText()
+        }
+    },
     methods: {
         backAction(){
             this.inputText = "";
@@ -67,19 +84,19 @@ export default {
         },
         inputFocusMethod(){
             gsap.timeline()
-            .to('.search-icon', {rotate: '90deg', opacity: 0, ease:"power2.inOut", duration: .2})
-            .to('.arrow-icon', {rotate: '0', opacity: 1, ease:"power2.inOut", duration: .2}, "-=.1375")
+            .to(`${this.refName}-search-icon`, {rotate: '90deg', opacity: 0, ease:"power2.inOut", duration: .2})
+            .to(`${this.refName}arrow-icon`, {rotate: '0', opacity: 1, ease:"power2.inOut", duration: .2}, "-=.1375")
         },
         inputUnfocusMethod(){
             gsap.timeline()
-            .to('.arrow-icon', {rotate: '-70deg', opacity: 0, ease:"power2.inOut", duration: .2},)
-            .to('.search-icon', {rotate: '0', opacity: 1, ease:"power2.inOut", duration: .2},  "-=.1375")
+            .to(`${this.refName}arrow-icon`, {rotate: '-70deg', opacity: 0, ease:"power2.inOut", duration: .2},)
+            .to(`${this.refName}-search-icon`, {rotate: '0', opacity: 1, ease:"power2.inOut", duration: .2},  "-=.1375")
             
         },
         clearText(){
             this.inputText = ""
             this.inputFocusMethod()
-            document.getElementById("chatInput").focus()
+            this.$refs[this.refName].focus()
         }
 
     },
@@ -125,23 +142,7 @@ export default {
                 position: relative;
                 @include flex;
             }
-            input{
-                padding-right: 32px;
-                padding-left: 65px;
-                width: 100%;
-                height: 100%;
-                border: none;
-                outline: none;
-                border-radius: 18px;
-                box-sizing: border-box;
-                color: $text-color;
-
-                &::placeholder{
-                    font-size: 14px;
-                    color: $text-color-grey;
-                    font-weight: 400;
-                }
-            }
+            
             .arrow-icon{
                 opacity: 0;
                 transform: rotate(310deg);

@@ -3,21 +3,49 @@
     <div class="app-contacts">
       <Contacts />
     </div>
-    <Nuxt />
+    <div class="app-main-content">
+      <Nuxt />
+    </div>
+    
+      <transition
+        v-on:before-leave="beforeLeave"
+        >
+        <template v-if="contactOpen">
+          <div class="app-profile">
+            <ContactInfo />
+          </div> 
+        </template>
+        
+      </transition>
+    
   </div>
 </template>
 
 <script>
 import Contacts from "~/components/Contacts";
+import ContactInfo from '~/components/ContactInfo'
 export default {
   components: {
     Contacts
+  },
+  computed: {
+    contactOpen(){
+      return this.$store.state.contactOpened
+    }
+  },
+  methods: {
+    dance(){
+      alert("panse")
+    },
+    beforeLeave(el){
+        el.classList.add('slideRightClass')
+    },
   }
 }
 </script>
 
 <style scoped lang="scss">
-html, body{
+html, body, *{
   font-family: 'Nunito Sans', sans-serif !important;
 }
 .container{
@@ -26,13 +54,41 @@ html, body{
   display: flex;
   // background-color: #00f;
   height: 100vh;
+  // position: relative;
 
   .app-contacts{
     // background-color: #f00;
-    font-family: 'Nunito Sans', sans-serif;
-    flex-basis: 43%;
+    flex-basis: 30%;
     height: 100%;
-    min-width: 380px;
+    // min-width: 300px;
+    @include respond-not-web{
+      flex-basis: 43%;
+      min-width: 300px;
+    }
+  }
+  
+
+  .app-main-content{
+    flex-grow: 1;
+
+    @include respond-not-web{
+      position: absolute;
+      z-index: -33;
+    }
+  }
+
+  .app-profile{
+    overflow: hidden;
+    background-color: $side-header-bg;
+    flex-basis: 30%;
+    min-width: 300px;
+    position: relative;
+    transition: all .2s;
+    transform-origin: center center;
+    transition: all .17s;
+    @include respond-not-web{
+      flex-grow: 1;
+    }
   }
 }
 </style>

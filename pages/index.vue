@@ -1,6 +1,5 @@
 <template>
-  <section class="main-content">    
-    
+  <section v-if="showIntro" class="main-content">       
     <div class="main-content__init">
       <div class="main-content__init-box">
         <img src="/init.jpg" alt="whatsapp">
@@ -15,21 +14,30 @@
             <Computer />&nbsp;WhatsApp is available for Windows. <span class="link">&nbsp; Get it here.</span>
           </span>
         </div>
-      </div>
-      
+      </div>      
     </div>
   </section>
+  <ChatView v-else />
 </template>
 
 <script>
 import Computer from "~/components/icons/computer.vue";
+import ChatView from "~/components/ChatView.vue";
 export default {
-
+  components: {
+    ChatView
+  },
+  computed: {
+    showIntro(){
+      return this.$store.state.chatView === 'intro'
+    }
+  }
   
 }
 </script>
 
 <style lang="scss">
+
 
 .main-content{
   flex-grow: 1;
