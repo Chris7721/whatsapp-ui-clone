@@ -84,13 +84,13 @@ export default {
         },
         inputFocusMethod(){
             gsap.timeline()
-            .to(`${this.refName}-search-icon`, {rotate: '90deg', opacity: 0, ease:"power2.inOut", duration: .2})
-            .to(`${this.refName}arrow-icon`, {rotate: '0', opacity: 1, ease:"power2.inOut", duration: .2}, "-=.1375")
+            .to(`#${this.refName}-search-icon`, {rotate: '90deg', opacity: 0, ease:"power2.inOut", duration: .2})
+            .to(`#${this.refName}-arrow-icon`, {rotate: '0', opacity: 1, ease:"power2.inOut", duration: .2}, "-=.1375")
         },
         inputUnfocusMethod(){
             gsap.timeline()
-            .to(`${this.refName}arrow-icon`, {rotate: '-70deg', opacity: 0, ease:"power2.inOut", duration: .2},)
-            .to(`${this.refName}-search-icon`, {rotate: '0', opacity: 1, ease:"power2.inOut", duration: .2},  "-=.1375")
+            .to(`#${this.refName}-arrow-icon`, {rotate: '-70deg', opacity: 0, ease:"power2.inOut", duration: .2},)
+            .to(`#${this.refName}-search-icon`, {rotate: '0', opacity: 1, ease:"power2.inOut", duration: .2},  "-=.1375")
             
         },
         clearText(){
