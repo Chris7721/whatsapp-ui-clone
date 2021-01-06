@@ -19,7 +19,7 @@
                 <img src="/portrait.png" alt="">
             </div>
             <div class="contacts__top-control">
-                <div class="contacts__top-control-svg notification" tabindex="0" title="Status" role="button"><Story /></div>
+                <div class="contacts__top-control-svg" tabindex="0" title="Status" role="button"><Story /></div>
                 <div @click="showNewChat=true" class="contacts__top-control-svg" tabindex="0" title="New Chat" role="button"><Message /></div>
                 <div @click="showMenu=true" v-click-outside="hideDropdown" class="contacts__top-control-svg" tabindex="0" title="Menu" role="button">
                     <Menu />
@@ -141,19 +141,7 @@ export default {
                 }
             }
             &-svg{
-                position: relative;  
-                &.notification{
-                    &::after{
-                        content: '';
-                        position: absolute;
-                        border-radius: 50%;
-                        top: 9px;
-                        right: 8.5px;
-                        background-color: $text-teal;
-                        width: 7px;
-                        height: 7px;
-                    }                    
-                }              
+                position: relative;            
             }
         }
     }
