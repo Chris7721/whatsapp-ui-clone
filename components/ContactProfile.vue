@@ -2,7 +2,7 @@
   <div class="contact-info__body">
 
     <div class="contact-info__body-img">
-      <div class="img-box">
+      <div id="profileViewImage" @click="openModal" class="img-box">
         <img src="/portrait.png" alt="">
       </div>
       <span>Anagbogu Chinonso</span>
@@ -101,7 +101,12 @@ export default {
       .from('.contact-info__body', {y: '-20px', opacity: 0, ease:"ease.out", duration: .25},)
       // .from('.profile-view-main-img', {scale:.05, opacity: 0, ease:"power2.inOut"}, "-=.85")
       // .from('.profile-view-main-box', {y:-25, opacity: 0, ease:"power2.inOut", },"-=.7")
+    },
+    methods: {
+    openModal(){
+      this.$store.commit("set_modalOpen", true)
     }
+  }
 }
 </script>
 
@@ -122,6 +127,7 @@ export default {
         flex-direction: column;  
         padding: 28px 30px 25px;
         .img-box{
+          cursor: pointer;
           img{
             width: 200px;
             height: 200px;
@@ -148,6 +154,7 @@ export default {
         padding: 14px 30px 10px;
         color: $text-teal;
         &-top{
+          cursor: pointer;
           @include flex;
           margin-bottom: 14px;
           font-size: 14px;
@@ -170,7 +177,7 @@ export default {
         padding-left: 30px;
         
         .mute-message{
-          
+          cursor: pointer;
           .mutebox-cont{
             .mutebox{
             width: 18px;
@@ -224,6 +231,7 @@ export default {
         }        
 
         .contact-action{
+          cursor: pointer;
           border-top: 1px solid $border-color;
         }
       }
@@ -250,6 +258,7 @@ export default {
         padding: 25px 30px;
         color: $text-color;
         font-size: 17px;
+        cursor: pointer;
         span{
           display: block;
           margin-left: 26px;

@@ -6,7 +6,8 @@ Vue.use(Vuex);
 export const state = () => ({
   contactOpened: false,
   currentView: '',
-  chatView: 'intro'
+  chatView: 'intro',
+  modalOpened: false
 });
 
 export const getters = {
@@ -19,5 +20,8 @@ export const mutations = {
   },
   set_chatView: (state, payload) => {
     state.chatView = payload
+  },
+  set_modalOpen: (state, payload) => {
+    state.modalOpened = payload
   },
 }

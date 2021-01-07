@@ -17,20 +17,27 @@
         </template>
         
       </transition>
-    
+      <template v-if="modalOpened">
+        <ImageModal />
+      </template>      
   </div>
 </template>
 
 <script>
+import ImageModal from "~/components/ImageModal";
 import Contacts from "~/components/Contacts";
 import ContactInfo from '~/components/ContactInfo'
 export default {
   components: {
-    Contacts
+    Contacts,
+    ImageModal
   },
   computed: {
     contactOpen(){
       return this.$store.state.contactOpened
+    },
+    modalOpened(){
+      return this.$store.state.modalOpened
     }
   },
   methods: {

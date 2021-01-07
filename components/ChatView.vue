@@ -9,7 +9,7 @@
       <div class="app-chat-header-actions">
         <div class="svg" tabindex="0" @click="openContact('search')"><SearchIcon /></div>
         <div class="svg" tabindex="0">
-          <div @click="showMenu=true"  v-click-outside="hideDropdown">
+          <div @click="showMenu=true" v-click-outside="hideDropdown">
             <MenuIcon />
           </div>
           
@@ -58,6 +58,7 @@
 </template>
 
 <script>
+import ImageModal from "~/components/ImageModal";
 import ClickOutside from 'vue-click-outside'
 import SearchIcon from "~/components/icons/search-icon";
 import MenuIcon from "~/components/icons/menu";
@@ -77,7 +78,7 @@ export default {
     SmileyIcon,
     Attachment,
     MicIcon,
-    SendMessage
+    SendMessage,
   },
   data(){
     return{
@@ -138,26 +139,7 @@ export default {
         &:not(:last-child){
             margin-right: 5px;
         }
-      }
-
-      .svg{
-        padding: 8px;
-        cursor: pointer;
-        position: relative;
-        border-radius: 50%;                
-        background-color: transparent;
-        transition: background-color .3s;
-        z-index: 55;
-        svg{
-          fill: $svg-fill;
-          display: block;
-        }
-        &:focus{
-            outline: none;
-            background-color: $svg-focus;
-        }
-        
-      }
+      }      
     }
   }
 
