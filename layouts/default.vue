@@ -3,7 +3,7 @@
     <div class="app-contacts">
       <Contacts />
     </div>
-    <div class="app-main-content">
+    <div :class="['app-main-content', contactOpen ? 'absolute' : '']">
       <Nuxt />
     </div>
     
@@ -41,9 +41,6 @@ export default {
     }
   },
   methods: {
-    dance(){
-      alert("panse")
-    },
     beforeLeave(el){
         el.classList.add('slideRightClass')
     },
@@ -59,6 +56,7 @@ html, body, *{
   width: 100%;
   min-width: 900px;
   display: flex;
+  overflow: hidden;
   // background-color: #00f;
   height: 100vh;
   // position: relative;
@@ -78,11 +76,12 @@ html, body, *{
 
   .app-main-content{
     flex-grow: 1;
-
-    @include respond-not-web{
+    &.absolute{
+      @include respond-not-web{
       position: absolute;
       z-index: -33;
     }
+    }    
   }
 
   .app-profile{

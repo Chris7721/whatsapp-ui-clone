@@ -1,6 +1,6 @@
 <template>
 <div class="serachview">
-  <CustomInput refName="searchInput" :isFocused="focused" />
+  <CustomInput refName="searchInput" :isFocused="focused" placeholderText="Search..." />
 
   <div class="serachview__result">
     <span>Search for messages with {{ currentContact.name }}.</span>

@@ -71,6 +71,9 @@ export const mutations = {
     if(state.showNewChat) {
       state.showNewChat = false 
     }
+    if(state.contactOpened) {
+      state.contactOpened = false 
+    }
   },
   set_modalOpen: (state, payload) => {
     state.modalOpened = payload
