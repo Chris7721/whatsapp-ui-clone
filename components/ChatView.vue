@@ -45,9 +45,11 @@
         </div>
       </div>
 
-      <template v-for="(message, i) in currentMessages.messages">
-        <ChatMessage :key="i" :index="i" :message="message"/>
-      </template>
+      <template v-if="currentMessages.messages.length > 0">
+        <template v-for="(message, i) in currentMessages.messages">
+          <ChatMessage :key="i" :index="i" :message="message"/>
+        </template>
+      </template>     
       
     </div>
 

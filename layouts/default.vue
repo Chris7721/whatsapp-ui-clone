@@ -58,7 +58,7 @@ html, body, *{
   display: flex;
   overflow: hidden;
   // background-color: #00f;
-  height: 100vh;
+  height: 100vh !important;
   // position: relative;
 
   .app-contacts{

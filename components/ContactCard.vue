@@ -10,12 +10,12 @@
                     {{ contact.name | shortenText(0, 20) }}
                 </span>
                 <span v-if="!noInfo" class="contact-card__msg-time">
-                    {{ timeStamp }}
+                    {{ lastMessage ? timeStamp : '' }}
                 </span>
             </div>
             <div class="contact-card__info">
                 <div class="contact-card__info-msg">
-                    <span v-if="!noInfo" :title="lastMessage.text" :class="{typing: contact.isTyping}">
+                    <span v-if="!noInfo" :title="lastMessage.text ? lastMessage.text : ''" :class="{typing: contact.isTyping}">
                         {{ contact.isTyping ? '...typing' : lastMessage.text |  shortenText(0, 16) }}
                     </span> 
                 </div> 
@@ -58,7 +58,11 @@ export default {
     },
     computed: {
         lastMessage(){
-            return this.$store.getters.lastMessage(this.contact._id)
+            const msg = this.$store.getters.lastMessage(this.contact._id)
+            if(msg) {
+                return msg
+            }
+            return {text: ''}
         },
         currentContact(){
             return this.$store.state.currentContact

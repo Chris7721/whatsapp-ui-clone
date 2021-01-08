@@ -15,9 +15,9 @@
         <ForwardIcon />
       </div>
       <div class="contact-info__body-media-images">
-        <img src="/portrait.png" alt="">
-        <img src="/portrait.png" alt="">
-        <img src="/portrait.png" alt="">
+        <template v-for="(image, i) in currentContact.sharedImages">
+          <img :src="image" :key="i" alt="shared image">
+        </template>
       </div>
     </div>
 
@@ -78,7 +78,7 @@
       <span>Report contact</span>
     </div>
 
-    <div class="contact-info__body-block danger">
+    <div @click="deleteChat" class="contact-info__body-block danger">
         <BinIcon />        
       <span>Delete chat</span>
     </div>
@@ -87,6 +87,7 @@
 
 <script>
 import { gsap } from "gsap";
+import faker from 'faker'
 import BlockedIcon from "~/components/icons/blocked";
 import BinIcon from "~/components/icons/bin";
 import ThumbIcon from "~/components/icons/thumb";
@@ -97,6 +98,7 @@ export default {
     ThumbIcon
   },
   mounted(){
+    console.log(faker)
       gsap.timeline({delay: .29})
       .from('.contact-info__body', {y: '-20px', opacity: 0, ease:"ease.out", duration: .25},)
       // .from('.profile-view-main-img', {scale:.05, opacity: 0, ease:"power2.inOut"}, "-=.85")
@@ -105,11 +107,14 @@ export default {
     computed: {
       currentContact(){
         return this.$store.state.currentContact
-      },
+      }
     },
     methods: {
     openModal(){
       this.$store.commit("set_modalOpen", true)
+    },
+    deleteChat(){
+      this.$store.commit('deleteChat', this.currentContact._id)
     }
   }
 }
