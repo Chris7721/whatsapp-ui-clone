@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import faker from 'faker'
-import { contacts, messages, contactImages } from "~/plugins/index";
+import { contacts, messages, contactImages } from "../plugins/index";
 
 Vue.use(Vuex);
 
