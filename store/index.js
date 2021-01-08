@@ -1,9 +1,42 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import faker from 'faker'
-import { contacts, messages, contactImages } from "../plugins/index";
 
 Vue.use(Vuex);
+
+const contacts = []
+const messages = []
+const contactImages = []
+for(let i = 0; i<=10; i++){
+  contacts.push({
+    _id: faker.random.uuid(),
+    name: `${faker.name.firstName()} ${faker.name.lastName()}`, 
+    phoneNumber: faker.phone.phoneNumber('+234 80# ### ####'),
+    status: faker.company.catchPhrase(),
+    image: `${faker.image.imageUrl()}?random=${Math.round(Math.random() * 1000)}`,
+    isTyping: false,
+    sharedImages: new Array(3).fill(null)
+    .map(e => `${faker.image.imageUrl()}?random=${Math.round(Math.random() * 1000)}`)
+  })
+}
+
+for(let i = 0; i<=2; i++){
+  contactImages.push(
+    `${faker.image.imageUrl()}?random=${Math.round(Math.random() * 1000)}`)
+}
+
+for(let i = 0; i < contacts.length; i++){
+  messages.push({
+    _id: contacts[i]._id,
+    messages: [
+      {
+        sender: 'faker',
+        text: i % 2 === 0 ? faker.lorem.sentence() : faker.lorem.sentences(),
+        timeStamp: faker.time.recent()
+      }
+    ]
+  })
+}
 
 
 export const state = () => ({
