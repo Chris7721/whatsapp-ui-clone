@@ -1,22 +1,27 @@
 <template>
-    <div @click="updateChatView" class="contact-card">
-        <div class="contact-card__img">
-            <img :src="contact % 2 > 0 ? `/avatar.jpg` : '/portrait.png'" alt="">
+    <div @click="selectContact" :class="['contact-card', currentContact ? (contact._id === currentContact._id ? 'active' : '') : '']">
+        <div v-lazyload class="contact-card__img">
+            <Person />
+            <img :data-url="contact.image" alt="">
         </div>
         <div class="contact-card__content">
             <div class="contact-card__msg">
                 <span class="contact-card__msg-name">
-                    Mr Ajimola
+                    {{ contact.name | shortenText(0, 20) }}
                 </span>
                 <span v-if="!noInfo" class="contact-card__msg-time">
-                    15:09
+                    {{ timeStamp }}
                 </span>
             </div>
             <div class="contact-card__info">
-                <span class="contact-card__info-msg" v-if="!noInfo">Hi how are you</span> 
+                <div class="contact-card__info-msg">
+                    <span v-if="!noInfo" :title="lastMessage.text" :class="{typing: contact.isTyping}">
+                        {{ contact.isTyping ? '...typing' : lastMessage.text |  shortenText(0, 16) }}
+                    </span> 
+                </div> 
                 <div v-if="!noInfo" class="contact-card__actions">
                     <span><Mute /></span>
-                    <span class="unread">{{ contact }}</span>
+                    <!-- <div class="unread"><span>{{ 0 }}</span></div> -->
                     <span class="arrow"><ArrowDown /></span>
                 </div>
             </div>
@@ -25,14 +30,16 @@
 </template>
 
 <script>
+import dayjs from 'dayjs'
 import MuteIcon from "~/components/icons/mute.vue";
+import Person from "~/components/icons/person.vue";
 import ArrowDown from "~/components/icons/arrow-down.vue";
 export default {
     props: {
         contact: {
-            type: Number,
+            type: Object,
             default() {
-                return 0;
+                return {};
             }
         },
         noInfo: {
@@ -46,9 +53,23 @@ export default {
         MuteIcon,
         ArrowDown
     },
+    mounted(){
+        console.log(this.lastMessage, "The last maessage!!!!!!1")
+    },
+    computed: {
+        lastMessage(){
+            return this.$store.getters.lastMessage(this.contact._id)
+        },
+        currentContact(){
+            return this.$store.state.currentContact
+        },
+        timeStamp(){      
+            return `${this.addZero(dayjs(this.lastMessage.timeStamp).hour())}:${this.addZero(dayjs(this.lastMessage.timeStamp).minute())}`
+        }
+    },
     methods: {
-        updateChatView(){
-            this.$store.commit("set_chatView", "chat")
+        selectContact(){
+            this.$store.commit("set_currentContact", this.contact)
         }
     }
     
@@ -59,28 +80,53 @@ export default {
 .contact-card{
     @include flex;
     // padding: 0 16px;
+    max-width: 100%;
     padding-left: 16px;
     background-color: #fff;
     transition: .3s all;
     cursor: pointer;
     height: 72px;
+    &.active{
+        background-color: #ebebeb !important;
+    }
     &:hover{
         background-color: $contact-focus;
         .contact-card__actions{
-        & > *{
-            &:last-child{
-                margin-left: 5px;
-                width: 20px;
-                // overflow: hidden;
-            }
+            transform: translateX(0);
         }
-    }
+    
 
     }
     &__img{
         width: 49px;
         height: 49px;
+        flex-shrink: 0;
+
+        &.loaded {
+            img {
+                visibility: visible;
+                opacity: 1;
+            }
+            svg {
+                display: none;
+                width: 100%;
+                height: 100%;
+            }
+        }
+
         img{
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            visibility: hidden;
+            opacity: 0;
+            border-radius: 500rem;
+            transition: 500ms all;
+        }
+        svg{
+            display: block;
             width: 100%;
             height: 100%;
             border-radius: 500rem;
@@ -91,7 +137,7 @@ export default {
         align-self: stretch;
         padding-right: 16px;
         margin-left: 16px;
-        flex: 1;
+        flex-grow: 1;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -108,12 +154,18 @@ export default {
         &-content{
 
         }
+        &-time{
+            font-size: 12px;
+            color: $text-secondary;
+        }
     }
     &__info{
+        max-width: 100%;
         min-height: 20px;
         @include flex;      
         margin-top: 2px;
         color: $msg-color;
+        overflow: hidden;
         svg{
             width: 20px;
             height: 20px;
@@ -121,21 +173,34 @@ export default {
             
         }
         &-msg{
+            max-width: 50%;
+            overflow: hidden;
+            display: block;
+            white-space: nowrap;
+            text-overflow: ellipsis;
             font-size: 14px;
+
+            .typing{
+                color: $unread-bg;
+                font-weight: 600;
+            }
         }
+        
     }
 
     &__actions{
         flex: 0 1 0;
+        transform: translateX(20px);
+        transition: .05s all;
         @include flex;
         & > *{
-            &:not(:last-child){
+            &:not(:first-child){
                 margin-left: 5px;
             }
         }
         .unread{
             background-color: $unread-bg;
-            padding: 5px;
+            padding: 2px;
             color: #fff;
             font-weight: 600;
             text-align: center;
@@ -145,12 +210,19 @@ export default {
             font-size: 12px;
             display: block;
             @include flex;
-            justify-content: center;            
+            justify-content: center;  
+            span{
+                display: block;
+            }
+        }
+        svg{
+            width: 20px;
+            height: 20px;
         }
         .arrow{
-            width: 0;
-            overflow: hidden;
-            transition: .05s width;
+            // width: 0;
+            // overflow: hidden;
+            // transition: .05s width;
         }
     }
 }

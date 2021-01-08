@@ -1,5 +1,5 @@
 <template>
-  <section v-if="showIntro" class="main-content">       
+  <section v-if="!selectedContact" class="main-content">       
     <div class="main-content__init">
       <div class="main-content__init-box">
         <img src="/init.jpg" alt="whatsapp">
@@ -28,8 +28,8 @@ export default {
     ChatView
   },
   computed: {
-    showIntro(){
-      return this.$store.state.chatView === 'intro'
+    selectedContact(){
+      return this.$store.state.currentContact
     }
   }
   

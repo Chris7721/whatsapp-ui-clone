@@ -3,7 +3,7 @@
   <CustomInput refName="searchInput" :isFocused="focused" />
 
   <div class="serachview__result">
-    <span>Search for messages with Christopher.</span>
+    <span>Search for messages with {{ currentContact.name }}.</span>
   </div>
 </div>
   
@@ -14,6 +14,11 @@ import CustomInput from "~/components/CustomInput";
 export default {
   components: {
     CustomInput
+  },
+  computed: {
+    currentContact(){
+      return this.$store.state.currentContact
+    }
   },
   data(){
     return{

@@ -21,7 +21,7 @@
             <div class="side__frequent">
                 Frequently contacted
             </div>
-            <template v-for="(contact, index) in 13">
+            <template v-for="(contact, index) in contacts">
                 <ContactCard :contact="contact" :key="index" noInfo />
             </template>
 
@@ -50,6 +50,11 @@ export default {
         BackIcon,
         People,
         ContactCard
+    },
+    computed: {
+        contacts(){
+            return this.$store.state.contacts
+        }
     },
     mounted: function(){
         gsap.timeline()

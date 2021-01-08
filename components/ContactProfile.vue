@@ -2,10 +2,10 @@
   <div class="contact-info__body">
 
     <div class="contact-info__body-img">
-      <div id="profileViewImage" @click="openModal" class="img-box">
-        <img src="/portrait.png" alt="">
+      <div @click="openModal" class="img-box">
+        <img id="profileViewImage" :src="currentContact.image" alt="">
       </div>
-      <span>Anagbogu Chinonso</span>
+      <span>{{ currentContact.name }}</span>
       <span class="online">Online</span>
     </div>
 
@@ -63,7 +63,7 @@
       </div>
       <div class="number">
         <span>
-          +234 817 789 0329
+         {{ currentContact.phoneNumber }}
         </span>          
       </div>
     </div>
@@ -101,6 +101,11 @@ export default {
       .from('.contact-info__body', {y: '-20px', opacity: 0, ease:"ease.out", duration: .25},)
       // .from('.profile-view-main-img', {scale:.05, opacity: 0, ease:"power2.inOut"}, "-=.85")
       // .from('.profile-view-main-box', {y:-25, opacity: 0, ease:"power2.inOut", },"-=.7")
+    },
+    computed: {
+      currentContact(){
+        return this.$store.state.currentContact
+      },
     },
     methods: {
     openModal(){

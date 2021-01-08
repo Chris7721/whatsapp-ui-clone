@@ -3,9 +3,9 @@
     <div class="image-modal-header">
       <div class="image-modal-header-left">
         <div class="image-modal-header-left-img">
-          <img src="/portrait.png" alt="">
+          <img :src="currentContact.image" alt="">
         </div>        
-        <span>Christopher</span>
+        <span>{{ currentContact.name }}</span>
       </div>
       <div class="image-modal-header-right">
         <div @click="closeModal" tabindex="0" class="svg">
@@ -15,7 +15,7 @@
     </div>
     <div class="image-modal-body">
       <div class="image-modal-body-img">
-        <img src="/portrait.png" alt="">
+        <img :src="currentContact.image" alt="">
       </div>
     </div>
     
@@ -33,6 +33,11 @@ export default {
   components: {
     CloseIcon
   },
+  computed: {
+    currentContact(){
+      return this.$store.state.currentContact
+    },
+  },
   methods: {
     closeModal(){
       const profileView = document.querySelector('#profileViewImage').getBoundingClientRect()
@@ -40,10 +45,11 @@ export default {
       console.log(screen.height)
       // 
       gsap.timeline()
-        .to('.image-modal-body-img', {x: `${profileView.left/2}px`, y: `-${(screen.height/2)-(profileView.top)}px`, marginTop: `150px`, marginRight: '30px', width: '200px', borderRadius: '50%', ease:"power2.inOut", duration: .2})
-        .to('.image-modal-body-img img', { borderRadius: '50%', ease:"power2.inOut", duration: .3}, '-=1')
-        setTimeout(()=>this.$store.commit("set_modalOpen", false), 260)
-      
+        .to('.image-modal-body-img', {x: `${profileView.left/2}px`, y: `-${(screen.height/2)-(profileView.height)}px`, width: '200px', height: '200px', marginTop: `52px`, marginRight: '57px', ease:"power2.inOut", duration: .2})
+        .to('.image-modal-body-img img', { borderRadius: '50%', ease:"power2.inOut", duration: .3}, '-=.5')
+        .to('.image-modal', { opacity: 0, ease:"power2.inOut", duration: .1})
+
+        setTimeout(()=>this.$store.commit("set_modalOpen", false), 280)
     }
   }
 }
@@ -101,10 +107,15 @@ export default {
       justify-content: center;
       &-img{
         // background-color: #00f;
+        flex-shrink: 0;
+        margin: 0;
         width: 100%;
         max-width: 411px;
+        min-width: 200px;
+        box-sizing: border-box;
         img{
           display: block;
+          margin: 0;
           width: 100%;
           height: 100%;
         }

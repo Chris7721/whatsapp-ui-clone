@@ -10,17 +10,18 @@
         <transition
         v-on:before-leave="beforeLeave"
         >
-            <NewChat  v-if="showNewChat" :showNewChat="showNewChat" @close-chat="showNewChat=false" />            
+            <NewChat  v-if="showNewChat" :showNewChat="showNewChat" @close-chat="openNewChat(false)" />            
         </transition>
 
         
         <div class="contacts__top">
-            <div @click="showProfile = true" class="contacts__top-img">
-                <img src="/portrait.png" alt="">
+            <div v-lazyload @click="showProfile = true" class="contacts__top-img">
+                <Person />
+                <img :data-url="authUser.image" alt="">
             </div>
             <div class="contacts__top-control">
                 <div class="contacts__top-control-svg" tabindex="0" title="Status" role="button"><Story /></div>
-                <div @click="showNewChat=true" class="contacts__top-control-svg" tabindex="0" title="New Chat" role="button"><Message /></div>
+                <div @click="openNewChat(true)" class="contacts__top-control-svg" tabindex="0" title="New Chat" role="button"><Message /></div>
                 <div @click="showMenu=true" v-click-outside="hideDropdown" class="contacts__top-control-svg" tabindex="0" title="Menu" role="button">
                     <Menu />
                         <transition name="fade">
@@ -42,7 +43,7 @@
         </div>
         <CustomInput refName="contactInput" placeholderText='Search or start new chat' />        
         <div class="contacts__details">
-            <template v-for="(contact, index) in 13">
+            <template v-for="(contact, index) in contacts">
                 <ContactCard :contact="contact" :key="index"/>                
             </template>
         </div>
@@ -50,12 +51,14 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import { gsap } from "gsap";
 import ClickOutside from 'vue-click-outside'
 import ProfileView from "~/components/ProfileView.vue";
 import NewChat from "~/components/NewChat.vue";
 import CustomInput from "~/components/CustomInput.vue";
 import Story from "~/components/icons/story.vue";
+import Person from "~/components/icons/person.vue";
 import Message from "~/components/icons/message.vue";
 import Menu from "~/components/icons/menu.vue";
 import ContactCard from "~/components/ContactCard.vue";
@@ -66,9 +69,7 @@ export default {
     data(){
         return{
             showMenu: false,
-            showProfile: false,
-            showNewChat: false,
-            
+            showProfile: false,            
         }
     },
     components:{
@@ -79,6 +80,9 @@ export default {
         ProfileView,
         NewChat
     },
+    computed: {
+        ...mapState(['contacts', 'showNewChat', 'authUser']),
+    },
     methods: {
         beforeLeave(el){
             el.classList.add('fadeOutClass')
@@ -88,6 +92,9 @@ export default {
         },
         hideDropdown(){
             this.showMenu = false
+        },
+        openNewChat(status){
+            this.$store.commit('set_showNewChat', status)
         }
     }
 }
@@ -111,11 +118,32 @@ export default {
             width: 40px;
             height: 40px;
             cursor: pointer;
+
+            &.loaded {
+                img {
+                    visibility: visible;
+                    opacity: 1;
+                }
+                svg {
+                    display: none;
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+
             img{
                 width: 100%;
                 height: 100%;
+                visibility: hidden;
+                opacity: 0;
+                transition: 500ms all;
                 border-radius: 500rem;
             }
+            svg {
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+                }
         }
         &-control{
             display: flex;

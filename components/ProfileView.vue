@@ -10,7 +10,7 @@
         <div class="profile-view-main">
 
             <div class="profile-view-main-img">
-                <img src="/portrait.png" alt="">
+                <img :src="authUser.image" alt="">
             </div>
             
             <div class="profile-view-main-box">
@@ -20,7 +20,7 @@
                     </div>
                     <div class="profile-view-main-action">
                         <span class="name">
-                            Nonso
+                            {{ authUser.name }}
                         </span>
                         <div class="action-pen">
                             <EditIcon />
@@ -34,11 +34,11 @@
 
                 <div class="profile-view-main-info">
                     <div class="profile-view-main-title">
-                        <span>Your name</span>
+                        <span>About</span>
                     </div>
                     <div class="profile-view-main-action">
                         <span class="name">
-                            Nonso
+                            {{ authUser.status }}
                         </span>
                         <div class="action-pen">
                             <EditIcon />
@@ -67,6 +67,11 @@ export default {
     components: {
         EditIcon,
         BackIcon
+    },
+    computed: {
+        authUser(){
+            return this.$store.state.authUser
+        }
     },
     mounted: function(){
         gsap.timeline()

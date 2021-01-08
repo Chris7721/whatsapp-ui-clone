@@ -66,6 +66,7 @@ html, body, *{
   .app-contacts{
     // background-color: #f00;
     flex-basis: 30%;
+    max-width: 30%;
     height: 100%;
     // min-width: 300px;
     @include respond-not-web{

@@ -2,8 +2,8 @@
     <div class="app-chat">
     <div class="app-chat-header">
       <div @click="openContact('profile')" class="app-chat-header-person">
-        <img src="/portrait.png" alt="">
-        <span>Christopher</span>
+        <img :src="currentContact.image" :alt="currentContact.name">
+        <span>{{ currentContact.name }}</span>
       </div>
 
       <div class="app-chat-header-actions">
@@ -31,25 +31,34 @@
       </div>
     </div>
 
-    <div class="app-chat-body">
+    <div class="app-chat-body" id="chatBody">
       <div class="app-chat-body-note">
         <LockIcon />
         <span>
           Messages are end-to-end encrypted. No one outside of this chat, not even WhatsApp, can read or listen to them. Click to learn more.
         </span>
       </div>
+
+      <div class="app-chat-body-day">
+        <div class="day">
+          <span>Today</span>
+        </div>
+      </div>
+
+      <template v-for="(message, i) in currentMessages.messages">
+        <ChatMessage :key="i" :index="i" :message="message"/>
+      </template>
+      
     </div>
+
+    
 
     <div class="app-chat-footer">
       <div tabindex="0" class="svg"><SmileyIcon /></div>
       <div tabindex="0" class="svg"><Attachment /></div>     
-      <input v-model="msgText" type="text" placeholder="Type a message" class="app-input msg">
-      
-      <div tabindex="0" v-if="msgText.length < 1" class="svg"><MicIcon /></div>
-      <div tabindex="0" v-else class="svg"><SendMessage /></div>
-
-
-      
+      <input ref="chatInput" @keydown.enter="sendMessage" v-model="msgText" type="text" placeholder="Type a message" class="app-input msg">    
+      <div tabindex="0" v-if="!validText" class="svg"><MicIcon /></div>
+      <div @click="sendMessage" tabindex="0" v-else class="svg"><SendMessage /></div>      
     </div>
 
 
@@ -59,6 +68,7 @@
 
 <script>
 import ImageModal from "~/components/ImageModal";
+import ChatMessage from "~/components/ChatMessage";
 import ClickOutside from 'vue-click-outside'
 import SearchIcon from "~/components/icons/search-icon";
 import MenuIcon from "~/components/icons/menu";
@@ -79,12 +89,28 @@ export default {
     Attachment,
     MicIcon,
     SendMessage,
+    ChatMessage
   },
   data(){
     return{
       msgText: '',
-      showMenu: false
+      showMenu: false,
+      validText: false
     }
+  },
+  computed: {
+    currentContact(){
+      return this.$store.state.currentContact
+    },
+    messages(){
+      return this.$store.state.messages
+    },
+    currentMessages(){
+      return this.$store.getters.currentMessages
+    }
+  },
+  mounted(){
+    this.$refs['chatInput'].focus()
   },
   methods: {
     openContact(view){
@@ -92,6 +118,30 @@ export default {
     },
     hideDropdown(){
       this.showMenu=false
+    },
+    async sendMessage(){
+      if(this.msgText.length > 0) {
+        this.$store.commit('sendMessage', {_id: this.currentMessages._id, text: this.msgText, timeStamp: Date.now(), sender: this.$store.state.authUser._id})
+        this.msgText=""
+        this.scrollToEnd()
+        this.$store.commit('set_typingStatus', {_id: this.currentContact._id, status: true})
+        await this.fakeAsync()
+        this.$store.commit('set_typingStatus', {_id: this.currentContact._id, status: false})
+        this.$store.commit('sendMessage', {_id: this.currentMessages._id, timeStamp: Date.now(), sender: this.currentContact._id})   
+        this.scrollToEnd()
+
+      }
+    }
+  },
+  watch: {
+    msgText: function(newVal){
+      newVal.trim().length > 0 ? this.validText = true : this.validText = false
+    },
+    currentMessages: function(){
+      this.$refs['chatInput'].focus()
+    },
+    messages: function(newVal){
+      console.log(newVal)
     }
   }
 }
@@ -150,6 +200,28 @@ export default {
     z-index: 22;
     padding-right: 9%;
     padding-left: 9%;
+    padding-bottom: 15px;
+
+    &-day{
+      width: 100%;
+      // background-color: #0f0;
+      margin: 12px 0;
+
+      .day{
+        width: fit-content;
+        padding: 9px 12px 8px;
+        text-align: center;
+        text-shadow: 0 1px 0 rgba(255, 255, 255, .4);
+        background-color: $day-bg;
+        border-radius: 7.5px;
+        box-shadow: 0 1px .5px rgba(0, 0, 0,.13);
+        text-transform: uppercase;
+        color: #303030;
+        font-size: 12.5px;
+        display: block;
+        margin: 0 auto;;
+      }
+    }
     &-note{      
       display: flex;
       align-items: flex-start;
