@@ -63,11 +63,7 @@ export const state = () => ({
       keepShow: true,
       minSize: .1,
       
-    },
-    scrollPanel: {
-      initialScrollX: false,
-      scrollingX: false
-    },
+    },    
     rail: {
       enable: false,
       border: "none",

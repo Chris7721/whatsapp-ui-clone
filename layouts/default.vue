@@ -1,26 +1,28 @@
 <template>
-  <div class="container">
-    <div class="app-contacts">
-      <Contacts />
+  <vue-scroll :ops="scroller" ref="scroller">
+    <div class="container">
+      <div class="container__top"></div>
+      <div class="app-contacts">
+        <Contacts />
+      </div>
+      <div :class="['app-main-content', contactOpen ? 'absolute' : '']">
+        <Nuxt />
+      </div>      
+        <transition
+          v-on:before-leave="beforeLeave"
+          >
+          <template v-if="contactOpen">
+            <div class="app-profile">
+              <ContactInfo />
+            </div> 
+          </template>
+          
+        </transition>
+        <template v-if="modalOpened">
+          <ImageModal />
+        </template>      
     </div>
-    <div :class="['app-main-content', contactOpen ? 'absolute' : '']">
-      <Nuxt />
-    </div>
-    
-      <transition
-        v-on:before-leave="beforeLeave"
-        >
-        <template v-if="contactOpen">
-          <div class="app-profile">
-            <ContactInfo />
-          </div> 
-        </template>
-        
-      </transition>
-      <template v-if="modalOpened">
-        <ImageModal />
-      </template>      
-  </div>
+  </vue-scroll>
 </template>
 
 <script>
@@ -28,6 +30,17 @@ import ImageModal from "~/components/ImageModal";
 import Contacts from "~/components/Contacts";
 import ContactInfo from '~/components/ContactInfo'
 export default {
+  data(){
+      return{
+          scroller: {
+            ...this.$store.state.scroller, 
+            scrollPanel: {
+            initialScrollY: false,
+            scrollingY: false
+          },      
+        }
+      }
+  },
   components: {
     Contacts,
     ImageModal
@@ -57,9 +70,29 @@ html, body, *{
   min-width: 900px;
   display: flex;
   overflow: hidden;
-  // background-color: #00f;
-  height: 100vh !important;
-  // position: relative;
+  height: 100vh;
+  overflow-x: auto;
+  overflow-y: hidden;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  @include respond-bigweb {
+    position: relative;
+    top: 19px;
+    margin: 0 auto;
+    max-width: 1396px;
+    height: calc(100vh - 38px) !important;
+  }
+  &__top{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 127px;
+    // z-index: 999999;
+    background-color: $text-teal;
+
+  }
 
   .app-contacts{
     // background-color: #f00;

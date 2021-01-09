@@ -78,6 +78,13 @@
     margin-right: 0 !important;
   }
 }
+.__rail-is-horizontal {
+  bottom: 0 !important;
+  z-index: 111 !important;
+  .__bar-is-horizontal {
+    margin-bottom: 0 !important;
+  }
+}
 
 .profile-view {
   width: 100%;
