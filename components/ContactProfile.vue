@@ -184,7 +184,7 @@ export default {
           display: flex;
           .image-block{
             width: 31.5%;
-            height: 73px;
+            min-height: 73px;
             display: block;
             margin-right: 7px;
             cursor: pointer;

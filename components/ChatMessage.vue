@@ -29,9 +29,9 @@ import FlagRight from "~/components/icons/flag-right";
 export default {
   props: {
     message: {
-        type: String,
+        type: Object,
         default() {
-            return ''
+            return {}
         }
     },
     index: {
