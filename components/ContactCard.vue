@@ -1,9 +1,11 @@
 <template>
     <div @click="selectContact" :class="['contact-card', currentContact ? (contact._id === currentContact._id ? 'active' : '') : '']">
-        <div v-lazyload class="contact-card__img">
-            <Person />
-            <img :data-url="contact.image" alt="">
+        <div class="contact-card__img">
+            <!-- <Person />            
+            <img :data-url="contact.image" alt=""> -->
+            <LazyImage :imageUrl="contact.image" :imageAlt="contact.name"/>
         </div>
+        <!-- <Status1 /> -->
         <div class="contact-card__content">
             <div class="contact-card__msg">
                 <span class="contact-card__msg-name">
@@ -31,6 +33,7 @@
 
 <script>
 import dayjs from 'dayjs'
+import Status1 from '~/components/icons/status-1'
 import MuteIcon from "~/components/icons/mute.vue";
 import Person from "~/components/icons/person.vue";
 import ArrowDown from "~/components/icons/arrow-down.vue";
@@ -90,6 +93,10 @@ export default {
     transition: .3s all;
     cursor: pointer;
     height: 72px;
+    svg{
+        background: transparent;
+    }
+
     &.active{
         background-color: #ebebeb !important;
     }
@@ -98,43 +105,14 @@ export default {
         .contact-card__actions{
             transform: translateX(0);
         }
-    
-
     }
     &__img{
         width: 49px;
         height: 49px;
         flex-shrink: 0;
-
-        &.loaded {
-            img {
-                visibility: visible;
-                opacity: 1;
-            }
-            svg {
-                display: none;
-                width: 100%;
-                height: 100%;
-            }
-        }
-
-        img{
-            display: block;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-            visibility: hidden;
-            opacity: 0;
-            border-radius: 500rem;
-            transition: 500ms all;
-        }
-        svg{
-            display: block;
-            width: 100%;
-            height: 100%;
-            border-radius: 500rem;
-        }
+        border-radius: 500rem; 
+        overflow: hidden;
+        
     }
     &__content{
         border-top: 1px solid $border-color;

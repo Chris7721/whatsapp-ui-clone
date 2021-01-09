@@ -28,7 +28,9 @@ export default {
   plugins: [
     { src: "~/plugins/filters" },
     { src: "~/plugins/mixins" },
-    { src: "~/plugins/lazyload-vue" }
+    { src: "~/plugins/lazyload-vue" },
+    { src: "~/plugins/lazy-image" },
+    { src: '~/plugins/vuescroll', ssr: false }
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

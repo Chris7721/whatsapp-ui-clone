@@ -2,7 +2,10 @@
   <section v-if="!selectedContact" class="main-content">       
     <div class="main-content__init">
       <div class="main-content__init-box">
-        <img src="/init.jpg" alt="whatsapp">
+        <div class="init-img">
+          <LazyImage imageUrl="/init.jpg" imageAlt="Whatsapp" type="file"/>
+        </div>
+        
         <div class="main-content__init-bottom">
           <h3>Keep your phone connected</h3>
           <span class="show">
@@ -68,9 +71,11 @@ export default {
       display: flex;
       flex-direction: column;
       align-items: center;
-      img{
+      .init-img{
         width: 250px;
         height: 250px;
+        border-radius: 50%;
+        background-color: #dfe5e7;
       }
     }
 

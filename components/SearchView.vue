@@ -32,6 +32,7 @@ export default {
 .serachview{
   height: 100%;
   display: flex;
+  // border-left: 1px solid $border-color2;
   flex-direction: column;
   &__result{
     flex-grow: 1;

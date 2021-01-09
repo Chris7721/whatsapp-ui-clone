@@ -6,11 +6,10 @@
                 <span>Profile</span>
             </div>            
         </div>
-        
+        <vue-scroll :ops="scroller" ref="scroller">
         <div class="profile-view-main">
-
             <div class="profile-view-main-img">
-                <img :src="authUser.image" alt="">
+                <LazyImage :imageUrl="authUser.image" :imageAlt="authUser.name"/>
             </div>
             
             <div class="profile-view-main-box">
@@ -48,6 +47,7 @@
             </div>            
 
         </div>
+        </vue-scroll>
     </div>
 </template>
 
@@ -62,6 +62,11 @@ export default {
             default() {
                 return false;
             }
+        }
+    },
+    data(){
+        return{
+            scroller: this.$store.state.scroller
         }
     },
     components: {
@@ -79,97 +84,12 @@ export default {
         .from('.profile-view-top-info', {x: '-100px', ease:"power4.out", duration: .83}, ".2")
         .from('.profile-view-main-img', {scale:.05, opacity: 0, ease:"power2.inOut"}, "-=.85")
         .from('.profile-view-main-box', {y:-25, opacity: 0, ease:"power2.inOut", },"-=.7")
-  },
+    },
   
 }
 </script>
 
 <style lang="scss" scoped>
 
-    .profile-view{
-        width: 100%;
-        height: 100vh;
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 117889;
-        display: flex;
-        flex-direction: column;
-        &-top{
-            padding-right: 20px;
-            padding-left: 23px;
-            height: 112px;
-            display: flex;
-            align-items: flex-end;
-            background-color: #00bfa5;
-            &-info{
-                margin-bottom: 15px;
-                color: #fff;
-                font-weight: 600;
-                font-size: 19px;
-                display: flex;
-                align-items: center;
-                cursor: pointer;
-                svg{
-                    fill: #fff;
-                    display: block;
-                    margin-right: 25px;
-                }
-            }
-        }
-        &-main{
-            flex-grow: 1;
-            background-color: #ededed;
-            overflow-y: auto;
 
-            .info-text{
-                display: block;
-                font-size: 14px;
-                text-align: left;
-                color: $text-secondary;
-                margin: 28px 20px 28px 30px;
-            }
-
-            &-title{
-                margin-bottom: 18px;
-                font-size: 14px;
-            }
-            &-info{
-                margin-bottom: 10px;
-                font-weight: 600;
-                color: $text-teal;
-                box-shadow: 0 1px 3px rgba($color: #000000, $alpha: .08);
-            }
-
-            &-action{
-                @include flex;
-                color: $text-color;
-
-                .action-pen{
-
-                    svg{
-                        fill: #919191;
-                    }
-                }
-            }
-
-            &-img{
-                width: 200px;
-                height: 200px;
-                margin: 28px auto;
-
-                img{
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                    border-radius: 500rem;
-                }
-            }
-
-            &-info{
-                padding: 14px 30px 10px;
-                background: #fff;
-            }
-        }
-    }
 </style>

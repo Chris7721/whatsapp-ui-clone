@@ -1,6 +1,5 @@
 <template>
     <div class="contacts">
-
         <transition
         v-on:before-leave="beforeLeave"
         >
@@ -15,9 +14,8 @@
 
         
         <div class="contacts__top">
-            <div v-lazyload @click="showProfile = true" class="contacts__top-img">
-                <Person />
-                <img :data-url="authUser.image" alt="">
+            <div v-lazyload @click="showProfile = true" class="contacts__top-img">                
+                <LazyImage :imageUrl="authUser.image" :imageAlt="authUser.name"/>
             </div>
             <div class="contacts__top-control">
                 <div class="contacts__top-control-svg" tabindex="0" title="Status" role="button"><Story /></div>
@@ -41,12 +39,14 @@
                 
             </div>
         </div>
-        <CustomInput refName="contactInput" placeholderText='Search or start new chat' />        
+        <CustomInput refName="contactInput" placeholderText='Search or start new chat' />
+        <vue-scroll :ops="scroller" ref="scroller">
         <div class="contacts__details">
             <template v-for="(contact, index) in contacts">
                 <ContactCard :contact="contact" :key="index"/>                
             </template>
         </div>
+        </vue-scroll>
     </div>
 </template>
 
@@ -69,7 +69,8 @@ export default {
     data(){
         return{
             showMenu: false,
-            showProfile: false,            
+            showProfile: false,
+            scroller: this.$store.state.scroller,          
         }
     },
     components:{
@@ -82,6 +83,11 @@ export default {
     },
     computed: {
         ...mapState(['contacts', 'showNewChat', 'authUser']),
+    },
+    mounted(){
+        gsap.timeline()
+        .from('.contacts', { z: 100 , perspective: 500,  ease:"linear", duration: 4 })
+        .to('.contacts', { z: 0 , perspective: 500,  ease:"linear", duration: 2 })
     },
     methods: {
         beforeLeave(el){
@@ -107,6 +113,9 @@ export default {
     position: relative;
     display: flex;
     flex-direction: column;
+    perspective : 500px; 
+    // transform: perspective(200px) translateZ(30px);
+    // transfor 
     &__top{
         padding: 10px 16px;
     }
@@ -118,6 +127,8 @@ export default {
             width: 40px;
             height: 40px;
             cursor: pointer;
+            border-radius: 500rem; 
+            overflow: hidden;
 
             &.loaded {
                 img {
@@ -177,6 +188,9 @@ export default {
         display: block;
         overflow-y: auto !important;
         flex-grow: 1;
+        &::-webkit-scrollbar {
+            display: none;
+        }
         // height: 400px;
     }
 }

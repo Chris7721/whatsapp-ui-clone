@@ -2,7 +2,11 @@
     <div class="app-chat">
     <div class="app-chat-header">
       <div @click="openContact('profile')" class="app-chat-header-person">
-        <img :src="currentContact.image" :alt="currentContact.name">
+        <div class="app-chat-header-person-img">
+          <LazyImage :imageUrl="currentContact.image" :imageAlt="currentContact.name" class="br-50" />
+        </div>
+        <!-- <img :src="currentContact.image" :alt="currentContact.name"> -->
+        <!--  -->
         <span>{{ currentContact.name }}</span>
       </div>
 
@@ -16,13 +20,13 @@
           <transition name="fade">
             <div v-if="showMenu" class="control-options">
                 <ul>
-                  <li>Contact info</li>
+                  <li @click="openContact('profile')">Contact info</li>
                   <li>Report business</li>
                   <li>Block</li>
                   <li>Select messages</li>
                   <li>Mute notifications</li>
-                  <li>Clear messages</li>
-                  <li>Delete chat</li>
+                  <li @click="deleteChat">Clear messages</li>
+                  <li @click="deleteChat">Delete chat</li>
                 </ul>
             </div>
           </transition>
@@ -30,29 +34,30 @@
         
       </div>
     </div>
-
-    <div class="app-chat-body" id="chatBody">
-      <div class="app-chat-body-note">
-        <LockIcon />
-        <span>
-          Messages are end-to-end encrypted. No one outside of this chat, not even WhatsApp, can read or listen to them. Click to learn more.
-        </span>
-      </div>
-
-      <div class="app-chat-body-day">
-        <div class="day">
-          <span>Today</span>
+    <vue-scroll :ops="scroller" ref="scroller">
+      <div class="app-chat-body" id="chatBody">
+        <div class="app-chat-body-note">
+          <LockIcon />
+          <span>
+            Messages are end-to-end encrypted. No one outside of this chat, not even WhatsApp, can read or listen to them. Click to learn more.
+          </span>
         </div>
+
+        <div class="app-chat-body-day">
+          <div class="day">
+            <span>Today</span>
+          </div>
+        </div>
+        
+
+        <template v-if="currentMessages.messages.length > 0">
+          <template v-for="(message, i) in currentMessages.messages">
+            <ChatMessage :key="i" :index="i" :message="message"/>
+          </template>
+        </template>     
+        
       </div>
-
-      <template v-if="currentMessages.messages.length > 0">
-        <template v-for="(message, i) in currentMessages.messages">
-          <ChatMessage :key="i" :index="i" :message="message"/>
-        </template>
-      </template>     
-      
-    </div>
-
+    </vue-scroll>
     
 
     <div class="app-chat-footer">
@@ -97,7 +102,8 @@ export default {
     return{
       msgText: '',
       showMenu: false,
-      validText: false
+      validText: false,
+      scroller: this.$store.state.scroller
     }
   },
   computed: {
@@ -133,6 +139,9 @@ export default {
         this.scrollToEnd()
 
       }
+    },
+    deleteChat(){
+      this.$store.commit('deleteChat', this.currentContact._id)
     }
   },
   watch: {
@@ -171,12 +180,11 @@ export default {
       cursor: pointer;
       display: flex;
       align-items: center;
-      img{
+      &-img{
         width: 40px;
         height: 40px;
-        border-radius: 50%;
-        display: block;
-        object-fit: cover;
+        border-radius: 500rem; 
+        overflow: hidden;
       }
       span{
         display: block;
@@ -203,6 +211,9 @@ export default {
     padding-right: 9%;
     padding-left: 9%;
     padding-bottom: 15px;
+    &::-webkit-scrollbar {
+      display: none;
+    }
 
     &-day{
       width: 100%;

@@ -19,7 +19,8 @@
     "nuxt": "^2.14.6",
     "sass": "^1.29.0",
     "sass-loader": "^10.1.0",
-    "vue-click-outside": "^1.1.0"
+    "vue-click-outside": "^1.1.0",
+    "vuescroll": "^4.17.3"
   },
   "devDependencies": {}
 }

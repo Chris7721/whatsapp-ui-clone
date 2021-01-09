@@ -54,7 +54,27 @@ export const state = () => ({
     image: faker.image.imageUrl(),
     status: faker.company.catchPhrase(),
     phoneNumber: faker.phone.phoneNumber('+234 90# ### ####'),
-  }
+  },
+  scroller: {
+    bar: {
+      background: "#ccc",
+      opacity: 1,
+      onlyShowBarOnScroll: false,
+      keepShow: true,
+      minSize: .1,
+      
+    },
+    scrollPanel: {
+      initialScrollX: false,
+      scrollingX: false
+    },
+    rail: {
+      enable: false,
+      border: "none",
+      size: "10px",
+      specifyBorderRadius: '0'
+    }
+  },
 });
 
 export const getters = {

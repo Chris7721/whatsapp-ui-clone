@@ -8,8 +8,8 @@
         </div>
         <CustomInput placeholderText="Search contacts" />
 
+        <vue-scroll :ops="scroller" ref="scroller">
         <div class="side">
-
             <div class="side__group">
                 <div class="side__group-svg">
                     <People />
@@ -24,8 +24,8 @@
             <template v-for="(contact, index) in contacts">
                 <ContactCard :contact="contact" :key="index" noInfo />
             </template>
-
-        </div>        
+        </div>  
+        </vue-scroll>      
     </div>
 </template>
 
@@ -43,6 +43,11 @@ export default {
             default() {
                 return false;
             }
+        }
+    },
+    data(){
+    return{
+        scroller: this.$store.state.scroller
         }
     },
     components: {
@@ -68,45 +73,13 @@ export default {
 
 <style lang="scss" scoped>
 
-    .profile-view{
-        width: 100%;
-        height: 100vh;
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 117889;
-        display: flex;
-        flex-direction: column;
-        &-top{
-            padding-right: 20px;
-            padding-left: 23px;
-            height: 112px;
-            display: flex;
-            align-items: flex-end;
-            background-color: #00bfa5;
-            flex-shrink: 0;
-            &-info{
-                margin-bottom: 15px;
-                color: #fff;
-                font-weight: 600;
-                font-size: 19px;
-                display: flex;
-                align-items: center;
-                cursor: pointer;
-                svg{
-                    fill: #fff;
-                    display: block;
-                    margin-right: 25px;
-                }
-            }
-        }
-        
-    }
-
     .side{
         flex-grow: 1;
         overflow-y: auto;
         background: #fff;
+        &::-webkit-scrollbar {
+            display: none;
+        }
         &__group{
             display: flex;
             align-items: center;

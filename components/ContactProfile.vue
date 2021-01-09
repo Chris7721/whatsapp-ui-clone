@@ -1,9 +1,10 @@
 <template>
+<vue-scroll :ops="scroller" ref="scroller">
   <div class="contact-info__body">
 
     <div class="contact-info__body-img">
-      <div @click="openModal" class="img-box">
-        <img id="profileViewImage" :src="currentContact.image" alt="">
+      <div id="profileViewImage" @click="openModal" class="img-box">
+        <LazyImage :imageUrl="currentContact.image" :imageAlt="currentContact.name"/>
       </div>
       <span>{{ currentContact.name }}</span>
       <span class="online">Online</span>
@@ -16,7 +17,9 @@
       </div>
       <div class="contact-info__body-media-images">
         <template v-for="(image, i) in currentContact.sharedImages">
-          <img :src="image" :key="i" alt="shared image">
+          <div :key="i" class="image-block">
+            <LazyImage :imageUrl="image" imageAlt="shared image" type="file" />
+          </div>          
         </template>
       </div>
     </div>
@@ -82,7 +85,8 @@
         <BinIcon />        
       <span>Delete chat</span>
     </div>
-  </div>    
+  </div>
+</vue-scroll>
 </template>
 
 <script>
@@ -96,6 +100,11 @@ export default {
     BlockedIcon,
     BinIcon,
     ThumbIcon
+  },
+  data(){
+    return{
+      scroller: this.$store.state.scroller
+    }
   },
   mounted(){
     console.log(faker)
@@ -128,6 +137,9 @@ export default {
       overflow-y: auto;
       position: relative;
       z-index: 11;
+      &::-webkit-scrollbar {
+        display: none;
+      }
       & > *{
         background-color: #fff;
         margin-bottom: 10px;
@@ -138,14 +150,11 @@ export default {
         padding: 28px 30px 25px;
         .img-box{
           cursor: pointer;
-          img{
-            width: 200px;
-            height: 200px;
-            margin: 0 auto;
-            display: block;
-            object-fit: cover;
-            border-radius: 500rem;
-          }
+          width: 200px;
+          height: 200px;
+          margin: 0 auto;
+          border-radius: 500rem;
+          overflow: hidden;
         }
 
         span{
@@ -175,11 +184,13 @@ export default {
 
         &-images{
           display: flex;
-          img{
+          .image-block{
             width: 31.5%;
+            height: 73px;
             display: block;
             margin-right: 7px;
             cursor: pointer;
+            background-color: #dfe5e7;
           }
         }
       }
