@@ -76,7 +76,6 @@ html, body, *{
 
   .app-main-content{
     flex-grow: 1;
-    perspective : 500px !important;
     &.absolute{
       @include respond-not-web{
       position: absolute;

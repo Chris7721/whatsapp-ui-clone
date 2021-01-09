@@ -70,6 +70,7 @@ export default {
 <style lang="scss" scoped>
   .msg-box{
     width: 100%;
+    box-sizing: border-box;
     margin-top: 2px;  
     &.mt{
       margin-top: 12px;

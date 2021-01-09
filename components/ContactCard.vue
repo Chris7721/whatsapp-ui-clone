@@ -1,5 +1,5 @@
 <template>
-    <div @click="selectContact" :class="['contact-card', currentContact ? (contact._id === currentContact._id ? 'active' : '') : '']">
+    <div @click="selectContact" :class="['contact-card', currentContact && !noInfo ? (contact._id === currentContact._id ? 'active' : '') : '']">
         <div class="contact-card__img">
             <!-- <Person />            
             <img :data-url="contact.image" alt=""> -->

@@ -205,6 +205,7 @@ export default {
     overflow-y: auto;
     position: relative;
     z-index: 22;
+    box-sizing: border-box;
     padding-right: 9%;
     padding-left: 9%;
     padding-bottom: 15px;

@@ -109,14 +109,15 @@ export default {
     width: 100%;
     height: 100%;
     position: relative;
-    display: flex;
-    flex-direction: column;
-    perspective : 500px !important; 
-    // transform: perspective(200px) translateZ(30px);
-    // transfor 
+    perspective : 500px;
     &__body{
+        width: 100%;
+        height: 100%;
         position: relative;
         z-index: 99999999;
+        display: flex;
+        flex-direction: column;
+        
     }
     &__top{
         padding: 10px 16px;
@@ -187,13 +188,13 @@ export default {
         }
     }
     &__details{
-        display: block;
-        overflow-y: auto !important;
         flex-grow: 1;
-        &::-webkit-scrollbar {
-            display: none;
-        }
-        // height: 400px;
+        min-height: 100%;
+        display: block;
+        overflow-y: auto !important;        
+        // &::-webkit-scrollbar {
+        //     display: none;
+        // }
     }
 }
 </style>
