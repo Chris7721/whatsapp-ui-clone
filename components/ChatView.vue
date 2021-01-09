@@ -150,9 +150,6 @@ export default {
     },
     currentMessages: function(){
       this.$refs['chatInput'].focus()
-    },
-    messages: function(newVal){
-      console.log(newVal)
     }
   }
 }

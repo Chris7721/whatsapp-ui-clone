@@ -91,7 +91,6 @@
 
 <script>
 import { gsap } from "gsap";
-import faker from 'faker'
 import BlockedIcon from "~/components/icons/blocked";
 import BinIcon from "~/components/icons/bin";
 import ThumbIcon from "~/components/icons/thumb";
@@ -107,7 +106,6 @@ export default {
     }
   },
   mounted(){
-    console.log(faker)
       gsap.timeline({delay: .29})
       .from('.contact-info__body', {y: '-20px', opacity: 0, ease:"ease.out", duration: .25},)
       // .from('.profile-view-main-img', {scale:.05, opacity: 0, ease:"power2.inOut"}, "-=.85")

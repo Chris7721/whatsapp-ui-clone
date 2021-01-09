@@ -44,15 +44,11 @@ export default {
   components: {
     FlagLeft
   },
-  mounted(){
-    console.log(dayjs(this.message.timeStamp).hour())
-  },
   computed: {
     currentContact(){
       return this.$store.state.currentContact
     },
     currentMessages(){
-      console.log(this.$store.getters.currentMessages.messages.length, "Zaaa lenghterss!!!!!!1")
       return this.$store.getters.currentMessages
     },
     lastMessage(){

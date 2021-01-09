@@ -1,18 +1,17 @@
 <template>
     <div class="contacts">
+        <div class="contacts__body">
+        
         <transition
         v-on:before-leave="beforeLeave"
         >
             <ProfileView  v-if="showProfile" :showProfile="showProfile" @close-profile="showProfile=false" />            
-        </transition>
-        
+        </transition>        
         <transition
         v-on:before-leave="beforeLeave"
         >
             <NewChat  v-if="showNewChat" :showNewChat="showNewChat" @close-chat="openNewChat(false)" />            
-        </transition>
-
-        
+        </transition>        
         <div class="contacts__top">
             <div v-lazyload @click="showProfile = true" class="contacts__top-img">                
                 <LazyImage :imageUrl="authUser.image" :imageAlt="authUser.name"/>
@@ -36,7 +35,6 @@
                             </div>
                         </transition>                        
                 </div>         
-                
             </div>
         </div>
         <CustomInput refName="contactInput" placeholderText='Search or start new chat' />
@@ -47,6 +45,7 @@
             </template>
         </div>
         </vue-scroll>
+        </div>
     </div>
 </template>
 
@@ -85,9 +84,8 @@ export default {
         ...mapState(['contacts', 'showNewChat', 'authUser']),
     },
     mounted(){
-        gsap.timeline()
-        .from('.contacts', { z: 100 , perspective: 500,  ease:"linear", duration: 4 })
-        .to('.contacts', { z: 0 , perspective: 500,  ease:"linear", duration: 2 })
+        gsap.timeline({delay: .1})
+        .from('.contacts__body', { z: 200 ,  ease:"linear", duration: .2 })
     },
     methods: {
         beforeLeave(el){
@@ -113,9 +111,13 @@ export default {
     position: relative;
     display: flex;
     flex-direction: column;
-    perspective : 500px; 
+    perspective : 500px !important; 
     // transform: perspective(200px) translateZ(30px);
     // transfor 
+    &__body{
+        position: relative;
+        z-index: 99999999;
+    }
     &__top{
         padding: 10px 16px;
     }

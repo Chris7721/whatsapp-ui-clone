@@ -113,7 +113,6 @@ export const mutations = {
   },
   deleteChat: (state, _id) => {
     const messageIndex = state.messages.findIndex(el => el._id === _id) 
-    console.log(messageIndex, 'user msgsssssssssssss')
     const newMessages = [...state.messages]
     newMessages[messageIndex].messages = []
     state.messages = newMessages

@@ -1,5 +1,7 @@
 # Whatsapp-UI
 
+Whatsapp Frontend Clone
+
 ## Build Setup
 
 ```bash

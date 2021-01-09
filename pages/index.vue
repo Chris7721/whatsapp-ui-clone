@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import { gsap } from "gsap";
 import Computer from "~/components/icons/computer.vue";
 import ChatView from "~/components/ChatView.vue";
 export default {
@@ -34,7 +35,12 @@ export default {
     selectedContact(){
       return this.$store.state.currentContact
     }
-  }
+  },
+  mounted(){
+    gsap.timeline({delay: .3})
+    .from('.main-content__init-bottom', { opacity: 0, y: 15,  ease:"linear", duration: .1 })
+    .from('.init-img', { scale: .6, ease:"linear", duration: .1 }, "-=.6")
+  },
   
 }
 </script>

@@ -41,14 +41,10 @@ export default {
   methods: {
     closeModal(){
       const profileView = document.querySelector('#profileViewImage').getBoundingClientRect()
-      console.log(profileView)
-      console.log(screen.height)
-      // 
       gsap.timeline()
         .to('.image-modal-body-img', {x: `${profileView.left/2}px`, y: `-${(screen.height/2)-(profileView.height)}px`, width: '200px', height: '200px', marginTop: `52px`, marginRight: '57px', ease:"power2.inOut", duration: .2})
         .to('.image-modal-body-img img', { borderRadius: '50%', ease:"power2.inOut", duration: .3}, '-=.5')
         .to('.image-modal', { opacity: 0, ease:"power2.inOut", duration: .1})
-
         setTimeout(()=>this.$store.commit("set_modalOpen", false), 280)
     }
   }
@@ -87,13 +83,6 @@ export default {
             height: 100%;
             display: block;
             border-radius: 50%;
-          }
-        }
-      }
-
-      &-right{
-        .svg{
-          svg{
           }
         }
       }

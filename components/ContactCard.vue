@@ -56,9 +56,6 @@ export default {
         MuteIcon,
         ArrowDown
     },
-    mounted(){
-        console.log(this.lastMessage, "The last maessage!!!!!!1")
-    },
     computed: {
         lastMessage(){
             const msg = this.$store.getters.lastMessage(this.contact._id)
@@ -133,9 +130,6 @@ export default {
         &-name{
             font-size: 17px;
         }
-        &-content{
-
-        }
         &-time{
             font-size: 12px;
             color: $text-secondary;
@@ -200,11 +194,6 @@ export default {
         svg{
             width: 20px;
             height: 20px;
-        }
-        .arrow{
-            // width: 0;
-            // overflow: hidden;
-            // transition: .05s width;
         }
     }
 }
