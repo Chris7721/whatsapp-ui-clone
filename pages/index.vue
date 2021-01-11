@@ -37,9 +37,9 @@ export default {
     }
   },
   mounted(){
-    gsap.timeline({delay: .3})
+    gsap.timeline({delay: .65})
     .from('.main-content__init-bottom', { opacity: 0, y: 15,  ease:"linear", duration: .1 })
-    .from('.init-img', { scale: .6, ease:"linear", duration: .1 }, "-=.6")
+    .from('.init-img', { scale: .5, opacity: 0, ease:"linear", transformOrigin: '40% top', duration: .13 , }, "-=.4")
   },
   
 }
@@ -54,6 +54,7 @@ export default {
   background-color: #0f0;
   height: 100vh;
   width: 100%;
+  overflow-x: hidden !important;
   &__init{
     width: 100%;
     height: 100%;
